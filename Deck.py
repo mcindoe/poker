@@ -23,4 +23,10 @@ class Deck():
         card = self.cards.pop(0)
         self.discards.append(card)
         return card
+    
+    def deal(self, n_cards):
+        ret = []
+        for _ in range(n_cards):
+            ret.append(self.next())
+        return ret
 
