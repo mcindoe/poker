@@ -27,7 +27,7 @@ class Hand():
             return 'Hand([])'
 
         ret = 'Hand(['
-        for card in self.cards:
+        for card in self:
             ret += f"Card({card.rank},'{card.suit[0]}')"
             if card is not self.cards[-1]:
                 ret += ', '
@@ -41,7 +41,7 @@ class Hand():
             return '[]'
 
         ret = '['
-        for card in self.cards:
+        for card in self:
             ret += str(card)
             if card is not self.cards[-1]:
                 ret += ', '
@@ -53,6 +53,31 @@ class Hand():
     def __len__(self):
         return len(self.cards)
 
+    def __iter__(self):
+        yield from self.cards
+
+
+    def __eq__(self, other):
+        return abs(self.value() - other.value()) < (10**-12)
+    
+    def __lt__(self, other):
+        if self == other:
+            return False
+        
+        return self.value() < other.value()
+    
+    def __le__(self, other):
+        return self == other or self < other
+
+    def __gt__(self, other):
+        if self == other:
+            return False
+
+        return self.value() > other.value()
+   
+    def __ge__(self, other):
+        return self == other or self > other
+
     def append(self, Card):
         self.cards.append(Card)
 
@@ -62,13 +87,13 @@ class Hand():
     def sort_by_suit(self):
         sorted_cards = []
         for suit in reversed(suits):
-            suit_cards = [x for x in self.cards if x.suit == suit]
+            suit_cards = [x for x in self if x.suit == suit]
             sorted_cards += sorted(suit_cards, key = lambda x: x.rank)
 
         self.cards = sorted_cards
 
     def get_counts(self):
-        ranks = [x.rank for x in self.cards]
+        ranks = [x.rank for x in self]
         uniques = sorted(list(set(ranks)), reverse = True)
         counts = {}
         for val in uniques:
@@ -129,7 +154,7 @@ class Hand():
             counts = self.get_counts()
             values = sorted(list(counts.keys()), reverse = True)
             uniques = sorted(list(set(values)), reverse = True)
-            flush = len(set([x.suit for x in self.cards])) == 1
+            flush = len(set([x.suit for x in self])) == 1
             ace = 14 in values
 
             # check if a straight is possible
