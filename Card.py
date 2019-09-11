@@ -22,7 +22,7 @@ class Card():
         return Card(rank, suit)
 
     def __repr__(self):
-        return f'Card({self.rank}, {self.suit})'
+        return f"Card({self.rank},'{self.suit[0]}')"
 
     def __str__(self):
         if self.rank >= 10:
