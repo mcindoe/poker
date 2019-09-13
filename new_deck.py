@@ -30,3 +30,4 @@ class Deck():
             ret.append(self.next())
         return ret
 
+

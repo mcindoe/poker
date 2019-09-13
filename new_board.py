@@ -48,37 +48,4 @@ class Board():
                 if self.bottom > other.bottom and self.middle > other.middle and self.top > other.top:
                     return 1
                 if self.bottom < other.bottom and self.middle < other.middle and self.top < other.top:
-                    return -1
-                return 0
 
-        if not other.valid():
-            return 0
-        return -1
-
-    def compare(self, other):
-        '''Compares each row against other's row and returns the
-        number of points self scores against other'''
-
-        total = 0
-        scoop_bonus = 3
-        
-        if self.valid():
-            # self valid, other invalid
-            if not other.valid():
-                return 3 + scoop_bonus + self.royalties()
-            # both valid
-            total = self.royalties() - other.royalties()
-            for x in ['bottom', 'middle', 'top']:
-                if getattr(self, x) > getattr(other, x):
-                    total += 1
-                elif getattr(self, x) < getattr(other, x):
-                    total -= 1
-
-            return total + self.scoop(other) * scoop_bonus
-        
-        # self invalid, other valid
-        if other.valid():
-            return -3 - scoop_bonus - other.royalties()
-        
-        # both invalid
-        return 0

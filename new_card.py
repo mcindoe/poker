@@ -32,3 +32,4 @@ class Card():
 
         return f'{card_name}{self.suit[0]}'
 
+
