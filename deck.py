@@ -1,7 +1,7 @@
 import json
 import random
 
-from Card import Card
+from card import Card
 
 class Deck():
     def __init__(self):
@@ -29,5 +29,6 @@ class Deck():
         for _ in range(n_cards):
             ret.append(self.next())
         return ret
+
 
 

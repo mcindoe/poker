@@ -1,5 +1,5 @@
-from Card import Card
-from Hand import Hand
+from card import Card
+from hand import Hand
 
 c1 = Card(3,'h')
 c2 = Card(3,'d')

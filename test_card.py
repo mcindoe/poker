@@ -1,5 +1,6 @@
 import unittest
-from Card import Card
+
+from card import Card
 
 class TestCard(unittest.TestCase):
     pass

@@ -1,7 +1,7 @@
-from Card import Card
-from Hand import Hand
-from Deck import Deck
-from Board import Board
+from card import Card
+from hand import Hand
+from deck import Deck
+from board import Board
 
 test = Deck()
 test.shuffle()
