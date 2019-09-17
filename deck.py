@@ -6,7 +6,7 @@ from card import Card
 class Deck():
     def __init__(self):
         self.cards = [Card.from_value(n) for n in range(52)]
-        self.discards = []
+        self.dealt = []
 
     def __str__(self):
         return json.dumps([str(card) for card in self.cards], indent = 2)
@@ -14,21 +14,37 @@ class Deck():
     def __len__(self):
         return len(self.cards)
 
+    def collect_dealt(self):
+        '''Adds the dealt cards to the bottom of the deck'''
+
+        self.cards = self.cards + self.dealt
+        self.dealt = []
+
     def shuffle(self):
-        self.cards = self.cards + self.discards
-        self.discards = []
+        '''Collects remaining and dealt cards together, then shuffles'''
+
+        self.collect_dealt()
         random.shuffle(self.cards)
 
     def next(self):
+        '''Returns the next card from the top of the deck; updates deck'''
+
+        assert len(self) > 0, 'no cards left to deal'
+
         card = self.cards.pop(0)
-        self.discards.append(card)
+        self.dealt.append(card)
         return card
     
     def deal(self, n_cards):
+        '''Deals n_cards cards, returns them as a tuple'''
+
+        if type(n_cards) is not int:
+            raise TypeError('n_cards must be an integer')
+
+        assert n_cards <= len(self), 'more cards requested than remaining'
+
         ret = []
         for _ in range(n_cards):
             ret.append(self.next())
-        return ret
-
-
+        return tuple(ret)
 

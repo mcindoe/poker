@@ -2,12 +2,17 @@ suits = ['club', 'diamond', 'heart', 'spade']
 
 class Card():
     def __init__(self, rank, suit):
+        # allow construction by letter to represent TJQKA
+        if type(rank) is str:
+            assert rank.upper() in ['T','J','Q','K','A']
+            rank = 10 + ['T','J','Q','K','A'].index(rank.upper())
+
         assert rank in range(2, 15)
 
         # allow construction by first letter of suit
         if len(suit) == 1:
-            assert suit in [x[0] for x in suits]
-            suit = suits[[x[0] for x in suits].index(suit)]
+            assert suit.lower() in [x[0] for x in suits]
+            suit = suits[[x[0] for x in suits].index(suit.lower())]
 
         assert suit in suits
         self.suit = suit
@@ -15,7 +20,20 @@ class Card():
 
     @staticmethod
     def from_value(val):
-        '''Maps a value in [0, 51] onto a Card instance'''
+        '''Maps a value in [0, 51] onto a Card instance
+
+        Parameters:
+        val (int) - a number in [0,51]
+
+        Returns:
+        Card - 0 maps to 2c, 51 to As
+        '''
+        
+        if type(val) is not int:
+            raise TypeError('val must be an integer')
+
+        if val not in range(52):
+            raise ValueError('val must be in [0, 51]')
 
         suit = suits[int(val/13)]
         rank = val % 13 + 2

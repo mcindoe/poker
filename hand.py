@@ -2,6 +2,18 @@ from card import Card
 from deck import Deck
 
 def kicker_val(*args):
+    '''Encodes a list of card values as a unique float, with two digits
+    representing each value in the order of importance, using as many
+    digits as required. Input is assumed to be ordered highest to lowest.
+
+    Eg
+    [10,5,4] -> 0.100504
+    [14,12,5,2] -> 0.14120502
+
+    Parameters:
+    args - iterable of kicker values
+    '''
+
     # Flatten input into one list
     list_of_lists = []
     for x in args:
@@ -55,7 +67,6 @@ class Hand():
 
     def __iter__(self):
         yield from self.cards
-
 
     def __eq__(self, other):
         return abs(self.value() - other.value()) < (10**-12)
