@@ -44,14 +44,14 @@ class TestHand(unittest.TestCase):
         c6 = Card(9,'h')
         c7 = Card('A','s')
         
-        self.hand1 = Hand((c1, c2, c3))
-        self.hand2 = Hand((c2, c3, c4))
-        self.hand3 = Hand((c2, c3, c4))
+        self.hand1 = Hand(c1, c2, c3)
+        self.hand2 = Hand(c2, c3, c4)
+        self.hand3 = Hand(c2, c3, c4)
 
-        self.hand4 = Hand((c1,c2,c3,c4,c5))
-        self.hand5 = Hand((c1,c2,c3,c4,c7))
-        self.hand6 = Hand((c7,c1,c2,c3,c4))
-        self.hand7 = Hand((c3,c4,c5,c6,c7))
+        self.hand4 = Hand(c1,c2,c3,c4,c5)
+        self.hand5 = Hand(c1,c2,c3,c4,c7)
+        self.hand6 = Hand(c7,c1,c2,c3,c4)
+        self.hand7 = Hand(c3,c4,c5,c6,c7)
     
     def test_comparisons(self):
         self.assertLess(self.hand1, self.hand2)
@@ -68,8 +68,6 @@ class TestHand(unittest.TestCase):
 
         self.assertLess(self.hand7.value(), 1)
 
-class TestBoard(unittest.TestCase):
-    pass
 
 if __name__ == '__main__':
     unittest.main()
