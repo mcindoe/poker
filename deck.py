@@ -2,6 +2,7 @@ import json
 import random
 
 from card import Card
+from hand import Hand
 
 class Deck():
     def __init__(self):
@@ -47,4 +48,18 @@ class Deck():
         for _ in range(n_cards):
             ret.append(self.next())
         return tuple(ret)
+    
+    def remove(self, removed):
+        '''Removes specified cards from a deck, saving them as dealt cards'''
+        if type(removed) is Hand:
+            self.remove(removed.cards)
+            return
+
+        for card in removed:
+            if card in self.cards:
+                self.dealt.append(card)
+                self.cards.remove(card)
+            else:
+                raise AssertionError(f'{str(card)} not found in deck')
+
 
