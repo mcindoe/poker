@@ -1,5 +1,4 @@
 from card import Card
-from deck import Deck
 
 def kicker_val(*args):
     '''Encodes a list of card values as a unique float, with two digits
@@ -31,7 +30,7 @@ def kicker_val(*args):
     return round(ret, 2*len(flat))
 
 class Hand():
-    def __init__(self, cards):
+    def __init__(self, *cards):
         self.cards = cards
 
     def __repr__(self):
@@ -89,8 +88,9 @@ class Hand():
     def __ge__(self, other):
         return self == other or self > other
 
-    def append(self, Card):
-        self.cards.append(Card)
+    def append(self, *cards):
+        for card in cards:
+            self.cards.append(card)
 
     def sort(self):
         self.cards = sorted(self.cards, key = lambda x: x.rank, reverse = True)
