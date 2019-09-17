@@ -1,11 +1,18 @@
 suits = ['club', 'diamond', 'heart', 'spade']
 
 class Card():
-    def __init__(self, rank, suit):
-        # allow construction by letter to represent TJQKA
+    def __init__(self, rank, suit = None):
+        # allow construction from a string, e.g. Card('T','h') or Card('Th')
         if type(rank) is str:
-            assert rank.upper() in ['T','J','Q','K','A']
-            rank = 10 + ['T','J','Q','K','A'].index(rank.upper())
+            if suit is None:
+                suit = rank[1]
+                rank = rank[0]
+
+            if rank not in ['2','3','4','5','6','7','8','9']:
+                assert rank.upper() in ['T','J','Q','K','A']
+                rank = 10 + ['T','J','Q','K','A'].index(rank.upper())
+            else:
+                rank = int(rank)
 
         assert rank in range(2, 15)
 
@@ -49,4 +56,8 @@ class Card():
             card_name = self.rank
 
         return f'{card_name}{self.suit[0]}'
+    
+    def __eq__(self, other):
+        return self.rank == other.rank and self.suit == other.suit  
+
 
