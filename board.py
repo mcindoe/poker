@@ -1,12 +1,14 @@
 from hand import Hand
 
 class Board():
-    def __init__(self, bottom, middle, top):
+    def __init__(self, bottom = None, middle = None, top = None):
         self.bottom = bottom
         self.middle = middle
         self.top = top
 
     def __str__(self):
+        self.sort()
+
         ret = ''
         for x in [self.top, self.middle, self.bottom]:
             ret += ' '.join([str(card) for card in x])
