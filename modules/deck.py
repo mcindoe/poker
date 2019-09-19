@@ -1,8 +1,9 @@
+import itertools
 import json
 import random
 
-from card import Card
-from hand import Hand
+from modules.card import Card
+from modules.hand import Hand
 
 class Deck():
     def __init__(self):
@@ -15,7 +16,10 @@ class Deck():
     def __len__(self):
         return len(self.cards)
 
-    def collect_dealt(self):
+    def __iter__(self):
+        return iter(self.cards)
+
+    def _collect_dealt(self):
         '''Adds the dealt cards to the bottom of the deck'''
 
         self.cards = self.cards + self.dealt
@@ -24,7 +28,7 @@ class Deck():
     def shuffle(self):
         '''Collects remaining and dealt cards together, then shuffles'''
 
-        self.collect_dealt()
+        self._collect_dealt()
         random.shuffle(self.cards)
 
     def next(self):
@@ -62,4 +66,13 @@ class Deck():
             else:
                 raise AssertionError(f'{str(card)} not found in deck')
 
+    def possible_deals(self, n_cards):
+        '''Returns all possible n_cards length deals'''
+        remaining_values = [x.value() for x in self]
+        value_combinations = list(set(itertools.combinations(remaining_values, n_cards)))
 
+        possible_deals = []
+        for comb in value_combinations:
+            possible_deals.append([Card.from_value(x) for x in comb])
+
+        return possible_deals

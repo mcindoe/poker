@@ -46,6 +46,12 @@ class Card():
         rank = val % 13 + 2
         return Card(rank, suit)
 
+    def value(self):
+        '''Converts a Card instance back into the unique value, reverse
+        of the .from_value() constructor method'''
+        
+        return 13 * suits.index(self.suit) + (self.rank - 2)
+
     def __repr__(self):
         return f"Card({self.rank},'{self.suit[0]}')"
 

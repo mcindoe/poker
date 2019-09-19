@@ -1,7 +1,4 @@
-from board import Board
-from card import Card
-from deck import Deck
-from hand import Hand
+from modules import *
 
 deck = Deck()
 deck.shuffle()
@@ -87,7 +84,7 @@ def final_move(hero, villain, dealt):
             remaining = [x for x in dealt if x is not discard]
             
             # consider implications of putting each of the remaining cards
-            # in each of the remaining rows
+            # in each of the remaining rows
             for card in remaining:
                 other = [x for x in remaining if x is not card][0]
 
@@ -105,7 +102,30 @@ def final_move(hero, villain, dealt):
         best_move = max(summaries, key = lambda x: x.summary)
         return best_move.board
 
-best_move = final_move(hero, villain, dealt)
+def value(hero, villain, deck):
+    '''Returns the value of the game to the hero given it's hero's
+    turn to move
 
-print('\nbest move:')
-print(best_move)
+    Parameters:
+    hero: Board
+    villain: Board
+    deck: Deck
+
+    Returns:
+    tuple: (value, best_move) where best_move is a Board instance
+        indicating the move to make, value the value of the game
+        to hero
+    '''
+
+    # Get the number of empty spaces in each row
+    empty = {
+        'top': 3 - len(hero.top),
+        'middle': 5 - len(hero.middle),
+        'bottom': 5 - len(hero.bottom)
+    }
+
+    if sum(empty.values()) == 2:
+        deals = deck.possible_deals(3)
+
+        for dealt in possible_deals:
+            x = 3

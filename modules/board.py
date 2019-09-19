@@ -1,5 +1,3 @@
-from hand import Hand
-
 class Board():
     def __init__(self, bottom = None, middle = None, top = None):
         self.bottom = bottom

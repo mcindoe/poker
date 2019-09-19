@@ -1,4 +1,4 @@
-from card import Card
+from modules.card import Card
 
 def kicker_val(*args):
     '''Encodes a list of card values as a unique float, with two digits
@@ -31,10 +31,16 @@ def kicker_val(*args):
 
 class Hand():
     def __init__(self, *cards):
-        self.cards = cards
+        # construction from an iterable of cards
+        if type(cards[0]) is not Card:
+            self.cards = cards[0]
 
+        # construction from arguments, eg Hand(c1, c2, ...)
+        else:
+            self.cards = cards
+    
     def __repr__(self):
-        if self.cards == []:
+        if not self.cards:
             return 'Hand([])'
 
         ret = 'Hand(['
