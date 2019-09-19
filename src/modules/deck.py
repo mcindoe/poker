@@ -2,8 +2,8 @@ import itertools
 import json
 import random
 
-from modules.card import Card
-from modules.hand import Hand
+from .card import Card
+from .hand import Hand
 
 class Deck():
     def __init__(self):

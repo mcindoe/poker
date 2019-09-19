@@ -1,4 +1,4 @@
-from modules.card import Card
+from .card import Card
 
 def kicker_val(*args):
     '''Encodes a list of card values as a unique float, with two digits

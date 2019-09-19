@@ -1,8 +1,6 @@
 import unittest
 
-from ./card import Card
-from deck import Deck
-from hand import Hand
+from context import *
 
 class TestCard(unittest.TestCase):
 
