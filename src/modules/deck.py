@@ -3,12 +3,12 @@ import json
 import random
 
 from .card import Card
-from .hand import Hand
+from .ofc_hand import OfcHand
 
 class Deck():
     def __init__(self):
         self.cards = [Card.from_value(n) for n in range(52)]
-        self.dealt = []
+        self.cards_dealt = 0
 
     def __str__(self):
         return json.dumps([str(card) for card in self.cards], indent = 2)
@@ -19,52 +19,41 @@ class Deck():
     def __iter__(self):
         return iter(self.cards)
 
-    def _collect_dealt(self):
-        '''Adds the dealt cards to the bottom of the deck'''
-
-        self.cards = self.cards + self.dealt
-        self.dealt = []
+    def __getitem__(self, i):
+        return self.cards[i]
 
     def shuffle(self):
         '''Collects remaining and dealt cards together, then shuffles'''
-
-        self._collect_dealt()
         random.shuffle(self.cards)
 
     def next(self):
         '''Returns the next card from the top of the deck; updates deck'''
 
-        assert len(self) > 0, 'no cards left to deal'
+        assert self.cards_dealt < 52, 'no cards leaft to deal'
 
-        card = self.cards.pop(0)
-        self.dealt.append(card)
+        card = self.cards[self.cards_dealt]
+        self.cards_dealt += 1
         return card
-    
+
     def deal(self, n_cards):
         '''Deals n_cards cards, returns them as a tuple'''
 
         if type(n_cards) is not int:
             raise TypeError('n_cards must be an integer')
 
-        assert n_cards <= len(self), 'more cards requested than remaining'
+        assert n_cards <= 52 - self.cards_dealt, 'more cards requested then remaining'
 
-        ret = []
-        for _ in range(n_cards):
-            ret.append(self.next())
-        return tuple(ret)
+        return (self[i] for i in range(self.cards_dealt, self.cards_dealt + n_cards))
     
     def remove(self, removed):
-        '''Removes specified cards from a deck, saving them as dealt cards'''
-        if type(removed) is Hand:
+        '''Removes specified cards from a deck'''
+        if type(removed) is OfcHand:
             self.remove(removed.cards)
             return
 
         for card in removed:
-            if card in self.cards:
-                self.dealt.append(card)
-                self.cards.remove(card)
-            else:
-                raise AssertionError(f'{str(card)} not found in deck')
+            assert card in self.cards, f'{str(card)} not found in deck'
+            self.cards.remove(card)
 
     def possible_deals(self, n_cards):
         '''Returns all possible n_cards length deals'''

@@ -1,1 +1,1 @@
-from .modules import Board, Card, Deck, Hand
+from .modules import OfcBoard, Card, Deck, OfcHand

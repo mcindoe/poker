@@ -1,4 +1,4 @@
-from .board import Board
+from .ofc_board import OfcBoard
 from .card import Card
 from .deck import Deck
-from .hand import Hand
+from .ofc_hand import OfcHand

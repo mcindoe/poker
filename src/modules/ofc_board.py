@@ -1,4 +1,4 @@
-class Board():
+class OfcBoard():
     def __init__(self, bottom = None, middle = None, top = None):
         self.bottom = bottom
         self.middle = middle
@@ -30,7 +30,9 @@ class Board():
         if not self.valid():
             return 0
 
-        return self.bottom.royalties() + 2 * self.middle.royalties() + self.top.royalties()
+        return self.bottom.royalties(middle = False) + \
+                self.middle.royalties(middle = True) + \
+                self.top.royalties()
 
     def scoop(self, other):
         '''Checks a board for scoopage against another board

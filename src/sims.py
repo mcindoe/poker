@@ -3,21 +3,21 @@ from modules import *
 deck = Deck()
 deck.shuffle()
 
-bottom = Hand(Card(2,'h'), Card(3,'S'), Card(4,'d'), Card(5,'h'), Card(6,'s'))
-middle = Hand(Card('2c'), Card('Th'), Card('Ts'), Card('Qc'), Card('Qs'))
-top = Hand(Card('Ac'), Card('3c'), Card('Tc'))
+bottom = OfcHand(Card(2,'h'), Card(3,'S'), Card(4,'d'), Card(5,'h'), Card(6,'s'))
+middle = OfcHand(Card('2c'), Card('Th'), Card('Ts'), Card('Qc'), Card('Qs'))
+top = OfcHand(Card('Ac'), Card('3c'), Card('Tc'))
 
 deck.remove(bottom)
 deck.remove(middle)
 deck.remove(top)
 
-villain = Board(bottom, middle, top)
+villain = OfcBoard(bottom, middle, top)
 
-hero_bottom = Hand(Card('Ad'),Card('Kd'),Card('Qd'),Card('Jd'),Card('Td'))
-hero_middle = Hand(Card('Ks'),Card('Kh'),Card('9s'),Card('8s'))
-hero_top = Hand(Card('As'), Card('7s'))
+hero_bottom = OfcHand(Card('Ad'),Card('Kd'),Card('Qd'),Card('Jd'),Card('Td'))
+hero_middle = OfcHand(Card('Ks'),Card('Kh'),Card('9s'),Card('8s'))
+hero_top = OfcHand(Card('As'), Card('7s'))
 
-hero = Board(hero_bottom, hero_middle, hero_top)
+hero = OfcBoard(hero_bottom, hero_middle, hero_top)
 
 deck.remove(hero_bottom)
 deck.remove(hero_middle)
@@ -31,7 +31,7 @@ print(hero)
 
 print('\nDealt Cards:')
 dealt = deck.deal(3)
-print(Hand(*dealt))
+print(OfcHand(*dealt))
 
 class Summary():
     def __init__(self, board, summary):
@@ -59,14 +59,14 @@ def final_move(hero, villain, dealt):
         summaries = []
         for discard in dealt:
             remaining = [x for x in dealt if x is not discard]
-            new_row = Hand(*(getattr(hero, match).cards + remaining))
+            new_row = OfcHand(*(getattr(hero, match).cards + remaining))
             
             if match == 'top':
-                new_board = Board(hero.bottom, hero.middle, new_row)
+                new_board = OfcBoard(hero.bottom, hero.middle, new_row)
             elif match == 'middle':
-                new_board = Board(hero.bottom, new_row, hero.top)
+                new_board = OfcBoard(hero.bottom, new_row, hero.top)
             else:
-                new_board = Board(new_row, hero.middle, hero.top)
+                new_board = OfcBoard(new_row, hero.middle, hero.top)
 
             summaries.append(Summary(new_board, new_board.compare(villain)))
         
@@ -88,10 +88,10 @@ def final_move(hero, villain, dealt):
             for card in remaining:
                 other = [x for x in remaining if x is not card][0]
 
-                new_0 = Hand(*(getattr(hero, incomplete[0]).cards + [card]))
-                new_1 = Hand(*(getattr(hero, incomplete[1]).cards + [other]))
+                new_0 = OfcHand(*(getattr(hero, incomplete[0]).cards + [card]))
+                new_1 = OfcHand(*(getattr(hero, incomplete[1]).cards + [other]))
                 
-                new_board = Board()
+                new_board = OfcBoard()
 
                 setattr(new_board, full, getattr(hero, full))
                 setattr(new_board, incomplete[0], new_0)
@@ -112,7 +112,7 @@ def value(hero, villain, deck):
     deck: Deck
 
     Returns:
-    tuple: (value, best_move) where best_move is a Board instance
+    tuple: (value, best_move) where best_move is a OfcBoard instance
         indicating the move to make, value the value of the game
         to hero
     '''

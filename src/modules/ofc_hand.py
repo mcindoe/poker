@@ -29,7 +29,7 @@ def kicker_val(*args):
 
     return round(ret, 2*len(flat))
 
-class Hand():
+class OfcHand():
     def __init__(self, *cards):
         # construction from an iterable of cards
         if type(cards[0]) is not Card:
@@ -74,7 +74,8 @@ class Hand():
         yield from self.cards
 
     def __eq__(self, other):
-        return abs(self.value() - other.value()) < (10**-12)
+        tolerance = 10 ** -12
+        return abs(self.value() - other.value()) < tolerance
     
     def __lt__(self, other):
         if self == other:
@@ -95,6 +96,7 @@ class Hand():
         return self == other or self > other
 
     def append(self, *cards):
+        # self.cards += cards ? 
         for card in cards:
             self.cards.append(card)
 
@@ -249,42 +251,46 @@ class Hand():
             # High card
             return kicker_val(values)
 
-    def royalties(self):
+    def royalties(self, middle):
         assert len(self) in [3,5]
         
         val = self.value()
+        strength = int(val)
         counts = self.get_counts()
 
         if len(self) == 3:
             # no pair
-            if int(val) == 0:
+            if strength == 0:
                 return 0
            
             # one pair
-            if int(val) == 1:
+            if strength == 1:
                 for x in counts:
                     if counts[x] == 2:
                         pair = x
                         break
                 
-                if pair < 6:
-                    return 0
-                
+                if pair < 6: return 0
                 return pair - 5
             
             # trips
-            if int(val) == 3:
+            if strength == 3:
                 trip_value = list(counts.keys())[0]
                 return trip_value + 8
         
         if len(self) == 5:
-            # worse than a straight
-            if int(val) < 4:
-                return 0
-            
+            if middle:
+                # return 1 for a straight, will be doubled to 2
+                if strength == 4: return 1
+                elif strength < 4: return 0
+
+            else:
+                # worse than a straight
+                if strength < 4: return 0
+
             # straight up to quads inclusive
-            if int(val) < 8:
-                return [2,4,6,10][int(val) - 4]
+            if strength < 8:
+                return [2,4,6,10][strength - 4]
 
             # straight flush. distinguish royal from not royal
             if 14 in list(counts.keys()):

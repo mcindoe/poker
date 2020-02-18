@@ -4,13 +4,14 @@ class Card():
     def __init__(self, rank, suit = None):
         # allow construction from a string, e.g. Card('T','h') or Card('Th')
         if type(rank) is str:
+            # suit not specified, so assumed to be eg 'Th'
             if suit is None:
                 suit = rank[1]
                 rank = rank[0]
 
-            if rank not in ['2','3','4','5','6','7','8','9']:
-                assert rank.upper() in ['T','J','Q','K','A']
-                rank = 10 + ['T','J','Q','K','A'].index(rank.upper())
+            if rank not in (str(el) for el in range(2,10)):
+                assert rank.upper() in 'TJQKA'
+                rank = 10 + 'TJQKA'.index(rank.upper())
             else:
                 rank = int(rank)
 
@@ -18,8 +19,11 @@ class Card():
 
         # allow construction by first letter of suit
         if len(suit) == 1:
-            assert suit.lower() in [x[0] for x in suits]
-            suit = suits[[x[0] for x in suits].index(suit.lower())]
+            assert suit.lower() in 'cdhs'
+            suit = suits['cdhs'.index(suit.lower())]
+
+            # assert suit.lower() in [x[0] for x in suits]
+            # suit = suits[[x[0] for x in suits].index(suit.lower())]
 
         assert suit in suits
         self.suit = suit
@@ -57,7 +61,7 @@ class Card():
 
     def __str__(self):
         if self.rank >= 10:
-            card_name = ['T', 'J', 'Q', 'K', 'A'][self.rank - 10]
+            card_name = 'TJQKA'[self.rank - 10]
         else:
             card_name = self.rank
 
@@ -65,5 +69,4 @@ class Card():
     
     def __eq__(self, other):
         return self.rank == other.rank and self.suit == other.suit  
-
 
