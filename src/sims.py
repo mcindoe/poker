@@ -1,37 +1,5 @@
 from modules import *
 
-deck = Deck()
-deck.shuffle()
-
-bottom = OfcHand(Card(2,'h'), Card(3,'S'), Card(4,'d'), Card(5,'h'), Card(6,'s'))
-middle = OfcHand(Card('2c'), Card('Th'), Card('Ts'), Card('Qc'), Card('Qs'))
-top = OfcHand(Card('Ac'), Card('3c'), Card('Tc'))
-
-deck.remove(bottom)
-deck.remove(middle)
-deck.remove(top)
-
-villain = OfcBoard(bottom, middle, top)
-
-hero_bottom = OfcHand(Card('Ad'),Card('Kd'),Card('Qd'),Card('Jd'),Card('Td'))
-hero_middle = OfcHand(Card('Ks'),Card('Kh'),Card('9s'),Card('8s'))
-hero_top = OfcHand(Card('As'), Card('7s'))
-
-hero = OfcBoard(hero_bottom, hero_middle, hero_top)
-
-deck.remove(hero_bottom)
-deck.remove(hero_middle)
-deck.remove(hero_top)
-
-print('Villain:')
-print(villain)
-print('')
-print('Hero:')
-print(hero)
-
-print('\nDealt Cards:')
-dealt = deck.deal(3)
-print(OfcHand(*dealt))
 
 class Summary():
     def __init__(self, board, summary):
@@ -40,6 +8,7 @@ class Summary():
 
     def __str__(self):
         return 'Board: \n' + str(self.board) + '\nSummary:' + str(self.summary)
+
 
 def final_move(hero, villain, dealt):
     # get the empty slots in each row
@@ -102,6 +71,7 @@ def final_move(hero, villain, dealt):
         best_move = max(summaries, key = lambda x: x.summary)
         return best_move.board
 
+
 def value(hero, villain, deck):
     '''Returns the value of the game to the hero given it's hero's
     turn to move
@@ -129,3 +99,39 @@ def value(hero, villain, deck):
 
         for dealt in possible_deals:
             x = 3
+
+
+if __name__ == '__main__':
+    deck = Deck()
+    deck.shuffle()
+
+    bottom = OfcHand(Card(2,'h'), Card(3,'S'), Card(4,'d'), Card(5,'h'), Card(6,'s'))
+    middle = OfcHand(Card('2c'), Card('Th'), Card('Ts'), Card('Qc'), Card('Qs'))
+    top = OfcHand(Card('Ac'), Card('3c'), Card('Tc'))
+
+    deck.remove(bottom)
+    deck.remove(middle)
+    deck.remove(top)
+
+    villain = OfcBoard(bottom, middle, top)
+
+    hero_bottom = OfcHand(Card('Ad'),Card('Kd'),Card('Qd'),Card('Jd'),Card('Td'))
+    hero_middle = OfcHand(Card('Ks'),Card('Kh'),Card('9s'),Card('8s'))
+    hero_top = OfcHand(Card('As'), Card('7s'))
+
+    hero = OfcBoard(hero_bottom, hero_middle, hero_top)
+
+    deck.remove(hero_bottom)
+    deck.remove(hero_middle)
+    deck.remove(hero_top)
+
+    print('Villain:')
+    print(villain)
+    print('')
+    print('Hero:')
+    print(hero)
+
+    print('\nDealt Cards:')
+    dealt = deck.deal(3)
+    print(OfcHand(*dealt))
+

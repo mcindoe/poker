@@ -1,5 +1,6 @@
 from .card import Card
 
+
 def kicker_val(*args):
     '''Encodes a list of card values as a unique float, with two digits
     representing each value in the order of importance, using as many
@@ -28,6 +29,7 @@ def kicker_val(*args):
         ret += x * 10**(-2*(i+1))
 
     return round(ret, 2*len(flat))
+
 
 class OfcHand():
     def __init__(self, *cards):

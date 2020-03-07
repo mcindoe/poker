@@ -5,6 +5,7 @@ import random
 from .card import Card
 from .ofc_hand import OfcHand
 
+
 class Deck():
     def __init__(self):
         self.cards = [Card.from_value(n) for n in range(52)]

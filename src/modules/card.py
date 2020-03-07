@@ -1,5 +1,6 @@
 suits = ['club', 'diamond', 'heart', 'spade']
 
+
 class Card():
     def __init__(self, rank, suit = None):
         # allow construction from a string, e.g. Card('T','h') or Card('Th')

@@ -2,8 +2,8 @@ import unittest
 
 from context import *
 
-class TestCard(unittest.TestCase):
 
+class TestCard(unittest.TestCase):
     def test_valid(self):
         with self.assertRaises(ValueError):
             Card.from_value(55)
@@ -17,7 +17,6 @@ class TestCard(unittest.TestCase):
 
 
 class TestDeck(unittest.TestCase):
-    
     def setUp(self):
         self.deck = Deck()
 
@@ -31,8 +30,8 @@ class TestDeck(unittest.TestCase):
     def test_deal(self):
         self.assertEqual(type(self.deck.next()), Card)
 
-class TestHand(unittest.TestCase):
 
+class TestHand(unittest.TestCase):
     def setUp(self):
         c1 = Card(2,'c')
         c2 = Card(3,'c')
@@ -69,3 +68,4 @@ class TestHand(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
