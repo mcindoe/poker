@@ -1,3 +1,8 @@
+'''
+Provides a class for an OFC hand, which may be 3-card or 5-card.
+'''
+
+
 from .card import Card
 
 

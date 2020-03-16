@@ -1,3 +1,8 @@
+'''
+Defines a 52-card French Deck. Provides tools such as deal(n) and shuffle
+'''
+
+
 import itertools
 import json
 import random

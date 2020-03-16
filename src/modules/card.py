@@ -1,3 +1,8 @@
+'''
+Defines a playing card class for a standard 52-card French Deck.
+'''
+
+
 suits = ['club', 'diamond', 'heart', 'spade']
 
 

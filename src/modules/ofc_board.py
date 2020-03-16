@@ -1,3 +1,9 @@
+'''
+Provides a class to represent entire OFC board, i.e. top, middle
+and bottom hands.
+'''
+
+
 class OfcBoard():
     def __init__(self, bottom = None, middle = None, top = None):
         self.bottom = bottom
